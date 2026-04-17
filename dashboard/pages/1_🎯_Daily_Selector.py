@@ -195,25 +195,27 @@ if uploaded:
                     c.border = bdr()
                 ws.row_dimensions[2].height = 22
 
-                # Column order: Date, Time, League, Home, Away, System, Bet, Rule Range, Home Odds, Lay Odds, Status
-                df_cols = ['Date','Time','Season','League','Home','Away','System','Bet',
-                           'Rule Range','Home Odds','Lay Odds','In Buffer']
-                df_use = df_in[[c for c in df_cols if c in df_in.columns]].reset_index(drop=True)
-
-                for i, row in df_use.iterrows():
+                # Build each row directly from df_in — no silent column drops
+                for i, row in df_in.reset_index(drop=True).iterrows():
                     r = 3 + i
                     in_buf = '⚠️' in str(row.get('In Buffer', ''))
                     bg = BUFF if in_buf else (ALT if i%2==0 else WHT)
-                    # Format date as DD/MM/YYYY
                     import pandas as _pd
                     date_val = row.get('Date','')
                     try:
                         date_val = _pd.to_datetime(date_val).strftime('%d/%m/%Y')
                     except: pass
-                    vals = [date_val, row.get('Time',''), row.get('Season',''),
-                            row.get('League',''), row.get('Home',''), row.get('Away',''),
-                            row.get('Bet',''), row.get('System',''), row.get('Rule Range',''),
-                            row.get('Home Odds',''), row.get('Lay Odds',''),
+                    vals = [date_val,
+                            str(row.get('Time','')),
+                            str(row.get('Season','')),
+                            str(row.get('League','')),
+                            str(row.get('Home','')),
+                            str(row.get('Away','')),
+                            str(row.get('Bet','')),
+                            str(row.get('System','')),
+                            str(row.get('Rule Range','')),
+                            row.get('Home Odds',''),
+                            row.get('Lay Odds',''),
                             '⚠️ Check KO' if in_buf else '✅ In Range']
                     for ci, v in enumerate(vals, 1):
                         cell = ws.cell(r, ci)
