@@ -108,11 +108,12 @@ if uploaded:
                 rows.append({
                     'Date':                 date_val,
                     'Time':                 str(row.get('Time', '')),
+                    'Season':               str(row.get('Season', '')),
                     'League (Competition)': str(row.get('League', '')),
                     'Home Team':            str(row.get('Home', '')),
                     'Away Team':            str(row.get('Away', '')),
-                    'System':               str(row.get('System', '')),
                     'Bet':                  str(row.get('Bet', '')),
+                    'System':               str(row.get('System', '')),
                     'Rule Range':           str(row.get('Rule Range', '')),
                     'Home Odds':            float(row.get('Home Odds', 0)),
                     'Lay Odds':             float(row.get('Lay Odds', 0)),
@@ -183,19 +184,19 @@ if uploaded:
                 ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
                 ws.row_dimensions[1].height = 26
 
-                headers = ["Date","Time","League (Competition)","Home Team","Away Team","System","Bet",
+                headers = ["Date","Time","Season","League (Competition)","Home Team","Away Team","Bet","System",
                            "Rule Range","Home Odds","Lay Odds","Status"]
                 for ci, h in enumerate(headers, 1):
                     c = ws.cell(2, ci)
                     c.value = h
                     c.font = Font(name="Arial", bold=True, size=10, color="FFFFFF")
-                    c.fill = solid(colour if ci < 8 else NAV)
+                    c.fill = solid(colour if ci < 9 else NAV)
                     c.alignment = Alignment(horizontal="center", vertical="center")
                     c.border = bdr()
                 ws.row_dimensions[2].height = 22
 
                 # Column order: Date, Time, League, Home, Away, System, Bet, Rule Range, Home Odds, Lay Odds, Status
-                df_cols = ['Date','Time','League','Home','Away','System','Bet',
+                df_cols = ['Date','Time','Season','League','Home','Away','System','Bet',
                            'Rule Range','Home Odds','Lay Odds','In Buffer']
                 df_use = df_in[[c for c in df_cols if c in df_in.columns]].reset_index(drop=True)
 
@@ -209,9 +210,9 @@ if uploaded:
                     try:
                         date_val = _pd.to_datetime(date_val).strftime('%d/%m/%Y')
                     except: pass
-                    vals = [date_val, row.get('Time',''), row.get('League',''),
-                            row.get('Home',''), row.get('Away',''), row.get('System',''),
-                            row.get('Bet',''), row.get('Rule Range',''),
+                    vals = [date_val, row.get('Time',''), row.get('Season',''),
+                            row.get('League',''), row.get('Home',''), row.get('Away',''),
+                            row.get('Bet',''), row.get('System',''), row.get('Rule Range',''),
                             row.get('Home Odds',''), row.get('Lay Odds',''),
                             '⚠️ Check KO' if in_buf else '✅ In Range']
                     for ci, v in enumerate(vals, 1):
@@ -219,16 +220,16 @@ if uploaded:
                         cell.value = v
                         cell.font = Font(name="Arial", size=10)
                         cell.fill = solid(bg)
-                        # Left-align text columns: League(3), Home(4), Away(5), System(6), Rule Range(8)
-                        cell.alignment = Alignment(horizontal="left" if ci in [3,4,5,6,8] else "center",
+                        # Left-align: League(4), Home(5), Away(6), System(8), Rule Range(9)
+                        cell.alignment = Alignment(horizontal="left" if ci in [4,5,6,8,9] else "center",
                                                    vertical="center")
                         cell.border = bdr()
-                    # Colour status cell
-                    sc = ws.cell(r, 11)
+                    # Colour status cell (col 12)
+                    sc = ws.cell(r, 12)
                     sc.font = Font(name="Arial", size=10, color=AMB if in_buf else GRN_T, bold=True)
                     ws.row_dimensions[r].height = 18
 
-                widths = [13, 8, 26, 22, 22, 16, 8, 11, 11, 18, 20]
+                widths = [13, 8, 12, 26, 22, 22, 16, 8, 18, 11, 11, 20]
                 for i, w in enumerate(widths, 1):
                     ws.column_dimensions[get_column_letter(i)].width = w
                 ws.freeze_panes = "A3"
