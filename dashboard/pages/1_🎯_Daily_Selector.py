@@ -95,40 +95,50 @@ if uploaded:
         test_df = show[~show['_live']].copy()
 
         def style_table(df):
-            # Format date as DD/MM/YYYY
-            d = df.copy()
-            if 'Date' in d.columns:
-                d['Date'] = pd.to_datetime(d['Date'], errors='coerce').dt.strftime('%d/%m/%Y')
-
-            # Rename for display
-            d = d.rename(columns={
-                'League': 'League (Competition)',
-                'Home':   'Home Team',
-                'Away':   'Away Team',
-                'In Buffer': 'Status',
-            })
-
-            # Exact column order as requested
-            disp_cols = ['Date', 'Time', 'League (Competition)', 'Home Team', 'Away Team',
-                         'System', 'Bet', 'Rule Range', 'Home Odds', 'Lay Odds', 'Status']
-            d = d[[c for c in disp_cols if c in d.columns]]
+            # Build display dataframe with exact column order
+            rows = []
+            for _, row in df.iterrows():
+                date_val = row.get('Date', '')
+                try:
+                    date_val = pd.to_datetime(date_val).strftime('%d/%m/%Y')
+                except Exception:
+                    pass
+                status_raw = str(row.get('In Buffer', ''))
+                status_val = '\u26a0\ufe0f Check KO' if '\u26a0' in status_raw else '\u2705 In Range'
+                rows.append({
+                    'Date':                 date_val,
+                    'Time':                 str(row.get('Time', '')),
+                    'League (Competition)': str(row.get('League', '')),
+                    'Home Team':            str(row.get('Home', '')),
+                    'Away Team':            str(row.get('Away', '')),
+                    'System':               str(row.get('System', '')),
+                    'Bet':                  str(row.get('Bet', '')),
+                    'Rule Range':           str(row.get('Rule Range', '')),
+                    'Home Odds':            float(row.get('Home Odds', 0)),
+                    'Lay Odds':             float(row.get('Lay Odds', 0)),
+                    'Status':               status_val,
+                })
+            d = pd.DataFrame(rows)
+            if d.empty:
+                return d.style
 
             def color_system(v):
-                if 'U1.5' in str(v) or 'O3.5' in str(v):
+                s = str(v)
+                if 'U1.5' in s or 'O3.5' in s:
                     return 'color:#2ecc71;font-weight:bold'
                 return 'color:#5dade2'
 
             def color_status(v):
-                if '\u2705' in str(v): return 'color:#2ecc71;font-weight:bold'
-                if '\u26a0' in str(v): return 'color:#f39c12;font-weight:bold'
+                s = str(v)
+                if '\u2705' in s: return 'color:#2ecc71;font-weight:bold'
+                if '\u26a0' in s: return 'color:#f39c12;font-weight:bold'
                 return ''
 
-            style = d.style.format({'Home Odds': '{:.2f}', 'Lay Odds': '{:.2f}'})
-            if 'System' in d.columns:
-                style = style.map(color_system, subset=['System'])
-            if 'Status' in d.columns:
-                style = style.map(color_status, subset=['Status'])
-            return style
+            return (d.style
+                    .format({'Home Odds': '{:.2f}', 'Lay Odds': '{:.2f}'})
+                    .map(color_system, subset=pd.IndexSlice[:, ['System']])
+                    .map(color_status, subset=pd.IndexSlice[:, ['Status']])
+                    )
 
         if not live_df.empty:
             st.subheader("🟢 LIVE Bets — Place These")
