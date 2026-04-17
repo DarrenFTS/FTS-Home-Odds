@@ -95,8 +95,8 @@ for tab, sys_name in zip(tabs, SYSTEMS):
             ))
             fig_cum.update_layout(
                 yaxis2=dict(overlaying="y", side="right", showgrid=False,
-                            title="Drawdown (u)", tickfont=dict(color="#e74c3c"),
-                            titlefont=dict(color="#e74c3c"))
+                            title=dict(text="Drawdown (u)", font=dict(color="#e74c3c")),
+                            tickfont=dict(color="#e74c3c"))
             )
 
         fig_cum.add_hline(y=0, line_dash="dot", line_color="rgba(255,255,255,0.2)")
