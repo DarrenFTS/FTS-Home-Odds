@@ -397,6 +397,7 @@ def signals_to_dataframe(signals: List[BetSignal]) -> pd.DataFrame:
     return pd.DataFrame([{
         'Date':       s.date,
         'Time':       s.time,
+        'Season':     s.season,
         'League':     s.comp,
         'Home':       s.home,
         'Away':       s.away,
