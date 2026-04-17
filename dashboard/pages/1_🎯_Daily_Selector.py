@@ -95,34 +95,40 @@ if uploaded:
         test_df = show[~show['_live']].copy()
 
         def style_table(df):
-            disp_cols = ['Date','Time','League','Home','Away','System','Status',
-                         'Bet','Home Odds','Lay Odds','Rule Range','Buffered','In Buffer','Hist ROI']
-            d = df[[c for c in disp_cols if c in df.columns]]
+            # Format date as DD/MM/YYYY
+            d = df.copy()
+            if 'Date' in d.columns:
+                d['Date'] = pd.to_datetime(d['Date'], errors='coerce').dt.strftime('%d/%m/%Y')
+
+            # Rename for display
+            d = d.rename(columns={
+                'League': 'League (Competition)',
+                'Home':   'Home Team',
+                'Away':   'Away Team',
+                'In Buffer': 'Status',
+            })
+
+            # Exact column order as requested
+            disp_cols = ['Date', 'Time', 'League (Competition)', 'Home Team', 'Away Team',
+                         'System', 'Bet', 'Rule Range', 'Home Odds', 'Lay Odds', 'Status']
+            d = d[[c for c in disp_cols if c in d.columns]]
+
+            def color_system(v):
+                if 'U1.5' in str(v) or 'O3.5' in str(v):
+                    return 'color:#2ecc71;font-weight:bold'
+                return 'color:#5dade2'
 
             def color_status(v):
-                if 'LIVE' in str(v):   return 'background-color:#0d2b12;color:#2ecc71;font-weight:bold'
-                if 'TEST' in str(v):   return 'background-color:#0a2033;color:#5dade2;font-weight:bold'
+                if '\u2705' in str(v): return 'color:#2ecc71;font-weight:bold'
+                if '\u26a0' in str(v): return 'color:#f39c12;font-weight:bold'
                 return ''
 
-            def color_buf(v):
-                if '✅' in str(v): return 'color:#2ecc71;font-weight:bold'
-                if '⚠️' in str(v): return 'color:#f39c12;font-weight:bold'
-                return ''
-
-            def color_roi(v):
-                try:
-                    r = float(str(v).replace('%','').replace('+',''))
-                    if r >= 35: return 'color:#2ecc71;font-weight:bold'
-                    if r >= 20: return 'color:#1abc9c'
-                    return 'color:#81c784'
-                except: return ''
-
-            return (d.style
-                    .map(color_status, subset=['Status'])
-                    .map(color_buf,    subset=['In Buffer'])
-                    .map(color_roi,    subset=['Hist ROI'])
-                    .format({'Home Odds': '{:.2f}', 'Lay Odds': '{:.2f}'})
-                   )
+            style = d.style.format({'Home Odds': '{:.2f}', 'Lay Odds': '{:.2f}'})
+            if 'System' in d.columns:
+                style = style.map(color_system, subset=['System'])
+            if 'Status' in d.columns:
+                style = style.map(color_status, subset=['Status'])
+            return style
 
         if not live_df.empty:
             st.subheader("🟢 LIVE Bets — Place These")
@@ -167,8 +173,8 @@ if uploaded:
                 ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
                 ws.row_dimensions[1].height = 26
 
-                headers = ["Date","Time","League","Home","Away","System","Bet",
-                           "Home Odds","Lay Odds","Rule Range","Status"]
+                headers = ["Date","Time","League (Competition)","Home Team","Away Team","System","Bet",
+                           "Rule Range","Home Odds","Lay Odds","Status"]
                 for ci, h in enumerate(headers, 1):
                     c = ws.cell(2, ci)
                     c.value = h
@@ -178,30 +184,38 @@ if uploaded:
                     c.border = bdr()
                 ws.row_dimensions[2].height = 22
 
-                col_map = {
-                    'Date':0,'Time':1,'League':2,'Home':3,'Away':4,
-                    'System':5,'Bet':6,'Home Odds':7,'Lay Odds':8,
-                    'Rule Range':9,'In Buffer':10
-                }
+                # Column order: Date, Time, League, Home, Away, System, Bet, Rule Range, Home Odds, Lay Odds, Status
                 df_cols = ['Date','Time','League','Home','Away','System','Bet',
-                           'Home Odds','Lay Odds','Rule Range','In Buffer']
+                           'Rule Range','Home Odds','Lay Odds','In Buffer']
                 df_use = df_in[[c for c in df_cols if c in df_in.columns]].reset_index(drop=True)
 
                 for i, row in df_use.iterrows():
                     r = 3 + i
                     in_buf = '⚠️' in str(row.get('In Buffer', ''))
                     bg = BUFF if in_buf else (ALT if i%2==0 else WHT)
-                    vals = [row.get(c,'') for c in df_cols]
+                    # Format date as DD/MM/YYYY
+                    import pandas as _pd
+                    date_val = row.get('Date','')
+                    try:
+                        date_val = _pd.to_datetime(date_val).strftime('%d/%m/%Y')
+                    except: pass
+                    vals = [date_val, row.get('Time',''), row.get('League',''),
+                            row.get('Home',''), row.get('Away',''), row.get('System',''),
+                            row.get('Bet',''), row.get('Rule Range',''),
+                            row.get('Home Odds',''), row.get('Lay Odds',''),
+                            '⚠️ Check KO' if in_buf else '✅ In Range']
                     for ci, v in enumerate(vals, 1):
                         cell = ws.cell(r, ci)
                         cell.value = v
                         cell.font = Font(name="Arial", size=10)
                         cell.fill = solid(bg)
-                        cell.alignment = Alignment(horizontal="center" if ci not in [3,4,5] else "left",
+                        # Left-align text columns: League(3), Home(4), Away(5), System(6), Rule Range(8)
+                        cell.alignment = Alignment(horizontal="left" if ci in [3,4,5,6,8] else "center",
                                                    vertical="center")
                         cell.border = bdr()
-                    ws.cell(r, 11).font = Font(name="Arial", size=10,
-                        color=AMB if in_buf else GRN_T, bold=True)
+                    # Colour status cell
+                    sc = ws.cell(r, 11)
+                    sc.font = Font(name="Arial", size=10, color=AMB if in_buf else GRN_T, bold=True)
                     ws.row_dimensions[r].height = 18
 
                 widths = [13, 8, 26, 22, 22, 16, 8, 11, 11, 18, 20]
