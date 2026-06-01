@@ -1,10 +1,10 @@
 {
   "Lay U1.5": {
-    "total_pl": 398.91,
-    "total_bets": 1525,
+    "total_pl": 399.33,
+    "total_bets": 1536,
     "win_rate": 81.7,
-    "roi": 26.16,
-    "max_dd": -25.47,
+    "roi": 26.0,
+    "max_dd": -24.49,
     "color": "#2ecc71",
     "live": true,
     "monthly_dates": [
@@ -65,7 +65,8 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05"
     ],
     "monthly_cum_pl": [
       -0.06,
@@ -125,7 +126,8 @@
       379.5,
       376.25,
       386.21,
-      398.91
+      398.91,
+      399.33
     ],
     "seasons": [
       {
@@ -178,47 +180,47 @@
       },
       {
         "season": "2025-2026",
-        "pl": 43.81,
-        "bets": 260,
-        "roi": 16.85
+        "pl": 49.69,
+        "bets": 266,
+        "roi": 18.68
       },
       {
         "season": "2026",
-        "pl": 3.92,
-        "bets": 4,
-        "roi": 98.0
+        "pl": -1.54,
+        "bets": 9,
+        "roi": -17.11
       }
     ],
     "competitions": [
       {
         "comp": "German Bundesliga",
-        "pl": 106.17,
-        "bets": 415,
-        "roi": 25.58
+        "pl": 108.13,
+        "bets": 417,
+        "roi": 25.93
       },
       {
         "comp": "Polish Ekstraklasa",
-        "pl": 79.32,
-        "bets": 292,
-        "roi": 27.16
+        "pl": 82.26,
+        "bets": 295,
+        "roi": 27.88
       },
       {
         "comp": "Turkish Super Lig",
-        "pl": 51.93,
-        "bets": 210,
-        "roi": 24.73
-      },
-      {
-        "comp": "Irish Premier League",
-        "pl": 48.85,
-        "bets": 82,
-        "roi": 59.57
+        "pl": 52.91,
+        "bets": 211,
+        "roi": 25.08
       },
       {
         "comp": "English Championship",
         "pl": 43.56,
         "bets": 297,
         "roi": 14.67
+      },
+      {
+        "comp": "Irish Premier League",
+        "pl": 43.39,
+        "bets": 87,
+        "roi": 49.87
       },
       {
         "comp": "German Bundesliga 2",
@@ -293,11 +295,11 @@
     ]
   },
   "Lay O3.5": {
-    "total_pl": 380.94,
-    "total_bets": 1695,
-    "win_rate": 74.5,
-    "roi": 22.47,
-    "max_dd": -15.49,
+    "total_pl": 373.24,
+    "total_bets": 1728,
+    "win_rate": 74.1,
+    "roi": 21.6,
+    "max_dd": -16.14,
     "color": "#1abc9c",
     "live": true,
     "monthly_dates": [
@@ -356,7 +358,8 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05"
     ],
     "monthly_cum_pl": [
       4.9,
@@ -414,7 +417,8 @@
       348.05,
       358.94,
       376.05,
-      380.94
+      380.94,
+      373.24
     ],
     "seasons": [
       {
@@ -467,23 +471,23 @@
       },
       {
         "season": "2025-2026",
-        "pl": 90.35,
-        "bets": 253,
-        "roi": 35.71
+        "pl": 84.96,
+        "bets": 281,
+        "roi": 30.23
       },
       {
         "season": "2026",
-        "pl": -1.62,
-        "bets": 2,
-        "roi": -81.0
+        "pl": -3.93,
+        "bets": 7,
+        "roi": -56.14
       }
     ],
     "competitions": [
       {
         "comp": "Turkish Super Lig",
-        "pl": 76.22,
-        "bets": 413,
-        "roi": 18.46
+        "pl": 80.82,
+        "bets": 423,
+        "roi": 19.11
       },
       {
         "comp": "Dutch Eerste Divisie",
@@ -493,51 +497,51 @@
       },
       {
         "comp": "Austrian Bundesliga",
-        "pl": 44.45,
-        "bets": 303,
-        "roi": 14.67
+        "pl": 44.41,
+        "bets": 308,
+        "roi": 14.42
       },
       {
         "comp": "Danish Superligaen",
-        "pl": 42.92,
-        "bets": 203,
-        "roi": 21.14
-      },
-      {
-        "comp": "French Ligue 2",
-        "pl": 37.5,
-        "bets": 117,
-        "roi": 32.05
+        "pl": 38.76,
+        "bets": 207,
+        "roi": 18.72
       },
       {
         "comp": "Spanish Primera Division",
-        "pl": 34.48,
-        "bets": 88,
-        "roi": 39.18
+        "pl": 34.24,
+        "bets": 90,
+        "roi": 38.04
+      },
+      {
+        "comp": "French Ligue 2",
+        "pl": 32.71,
+        "bets": 119,
+        "roi": 27.49
       },
       {
         "comp": "Dutch Eredivisie",
-        "pl": 28.92,
-        "bets": 147,
-        "roi": 19.67
+        "pl": 29.16,
+        "bets": 150,
+        "roi": 19.44
       },
       {
         "comp": "Belgian Premier League",
-        "pl": 25.35,
-        "bets": 57,
-        "roi": 44.47
+        "pl": 26.33,
+        "bets": 58,
+        "roi": 45.4
       },
       {
         "comp": "Italian Serie A",
-        "pl": 22.81,
-        "bets": 101,
-        "roi": 22.58
+        "pl": 20.83,
+        "bets": 102,
+        "roi": 20.42
       },
       {
         "comp": "Swedish Allsvenskan",
-        "pl": 18.9,
-        "bets": 52,
-        "roi": 36.35
+        "pl": 16.59,
+        "bets": 57,
+        "roi": 29.11
       }
     ],
     "rules": [
@@ -594,10 +598,10 @@
     ]
   },
   "Lay FHG U0.5": {
-    "total_pl": 446.28,
-    "total_bets": 2282,
+    "total_pl": 455.08,
+    "total_bets": 2349,
     "win_rate": 75.7,
-    "roi": 19.56,
+    "roi": 19.37,
     "max_dd": -23.68,
     "color": "#27ae60",
     "live": false,
@@ -659,7 +663,9 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05",
+      "2026-06"
     ],
     "monthly_cum_pl": [
       4.9,
@@ -719,7 +725,9 @@
       411.45,
       423.59,
       440.96,
-      446.28
+      446.28,
+      456.15,
+      455.08
     ],
     "seasons": [
       {
@@ -772,59 +780,59 @@
       },
       {
         "season": "2025-2026",
-        "pl": 52.25,
-        "bets": 244,
-        "roi": 21.41
+        "pl": 48.1,
+        "bets": 275,
+        "roi": 17.49
       },
       {
         "season": "2026",
-        "pl": 21.29,
-        "bets": 79,
-        "roi": 26.95
+        "pl": 34.24,
+        "bets": 115,
+        "roi": 29.77
       }
     ],
     "competitions": [
       {
         "comp": "Brazilian Serie A",
-        "pl": 128.11,
-        "bets": 946,
-        "roi": 13.54
+        "pl": 139.89,
+        "bets": 977,
+        "roi": 14.32
       },
       {
         "comp": "Polish Ekstraklasa",
-        "pl": 62.78,
-        "bets": 304,
-        "roi": 20.65
-      },
-      {
-        "comp": "Spanish Primera Division",
-        "pl": 52.62,
-        "bets": 224,
-        "roi": 23.49
+        "pl": 61.03,
+        "bets": 314,
+        "roi": 19.44
       },
       {
         "comp": "Scottish Premiership",
-        "pl": 52.41,
-        "bets": 379,
-        "roi": 13.83
+        "pl": 51.11,
+        "bets": 386,
+        "roi": 13.24
+      },
+      {
+        "comp": "Spanish Primera Division",
+        "pl": 50.42,
+        "bets": 232,
+        "roi": 21.73
       },
       {
         "comp": "French Ligue 1",
-        "pl": 44.95,
-        "bets": 194,
-        "roi": 23.17
+        "pl": 44.09,
+        "bets": 198,
+        "roi": 22.27
       },
       {
         "comp": "Irish Premier League",
-        "pl": 40.23,
-        "bets": 88,
-        "roi": 45.72
+        "pl": 41.4,
+        "bets": 93,
+        "roi": 44.52
       },
       {
         "comp": "Swiss Super League",
-        "pl": 37.71,
-        "bets": 97,
-        "roi": 38.88
+        "pl": 39.67,
+        "bets": 99,
+        "roi": 40.07
       },
       {
         "comp": "German Bundesliga",
@@ -887,11 +895,11 @@
     ]
   },
   "Back FHG O1.5": {
-    "total_pl": 220.55,
-    "total_bets": 894,
-    "win_rate": 42.3,
-    "roi": 24.67,
-    "max_dd": -17.07,
+    "total_pl": 221.07,
+    "total_bets": 902,
+    "win_rate": 42.2,
+    "roi": 24.51,
+    "max_dd": -17.7,
     "color": "#16a085",
     "live": false,
     "monthly_dates": [
@@ -950,7 +958,8 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05"
     ],
     "monthly_cum_pl": [
       -6.19,
@@ -1008,7 +1017,8 @@
       213.8,
       224.72,
       230.0,
-      220.55
+      220.55,
+      221.07
     ],
     "seasons": [
       {
@@ -1061,29 +1071,29 @@
       },
       {
         "season": "2025-2026",
-        "pl": 27.08,
-        "bets": 131,
-        "roi": 20.67
+        "pl": 28.74,
+        "bets": 135,
+        "roi": 21.29
       },
       {
         "season": "2026",
-        "pl": -2.65,
-        "bets": 6,
-        "roi": -44.17
+        "pl": -3.79,
+        "bets": 10,
+        "roi": -37.9
       }
     ],
     "competitions": [
       {
         "comp": "English League One",
-        "pl": 82.09,
-        "bets": 389,
-        "roi": 21.1
+        "pl": 83.91,
+        "bets": 390,
+        "roi": 21.52
       },
       {
         "comp": "Turkish Super Lig",
-        "pl": 44.93,
-        "bets": 252,
-        "roi": 17.83
+        "pl": 44.77,
+        "bets": 255,
+        "roi": 17.56
       },
       {
         "comp": "Italian Serie A",
@@ -1093,21 +1103,21 @@
       },
       {
         "comp": "Swedish Allsvenskan",
-        "pl": 25.35,
-        "bets": 74,
-        "roi": 34.26
-      },
-      {
-        "comp": "Norwegian Tippeligaen",
-        "pl": 19.07,
-        "bets": 52,
-        "roi": 36.67
+        "pl": 26.21,
+        "bets": 76,
+        "roi": 34.49
       },
       {
         "comp": "German Bundesliga",
         "pl": 18.62,
         "bets": 50,
         "roi": 37.24
+      },
+      {
+        "comp": "Norwegian Tippeligaen",
+        "pl": 17.07,
+        "bets": 54,
+        "roi": 31.61
       }
     ],
     "rules": [
@@ -1144,11 +1154,11 @@
     ]
   },
   "Home Lay": {
-    "total_pl": 371.85,
-    "total_bets": 2326,
-    "win_rate": 69.2,
-    "roi": 15.99,
-    "max_dd": -21.87,
+    "total_pl": 368.41,
+    "total_bets": 2388,
+    "win_rate": 69.0,
+    "roi": 15.43,
+    "max_dd": -22.94,
     "color": "#1e8449",
     "live": false,
     "monthly_dates": [
@@ -1209,7 +1219,8 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05"
     ],
     "monthly_cum_pl": [
       3.76,
@@ -1269,7 +1280,8 @@
       367.22,
       365.63,
       367.33,
-      371.85
+      371.85,
+      368.41
     ],
     "seasons": [
       {
@@ -1322,41 +1334,41 @@
       },
       {
         "season": "2025-2026",
-        "pl": 81.72,
-        "bets": 253,
-        "roi": 32.3
+        "pl": 78.94,
+        "bets": 281,
+        "roi": 28.09
       },
       {
         "season": "2026",
-        "pl": -2.96,
-        "bets": 62,
-        "roi": -4.77
+        "pl": -3.62,
+        "bets": 96,
+        "roi": -3.77
       }
     ],
     "competitions": [
       {
         "comp": "USA MLS",
-        "pl": 78.65,
-        "bets": 978,
-        "roi": 8.04
+        "pl": 77.99,
+        "bets": 1012,
+        "roi": 7.71
       },
       {
         "comp": "Belgian Premier League",
-        "pl": 64.26,
-        "bets": 547,
-        "roi": 11.75
+        "pl": 60.98,
+        "bets": 561,
+        "roi": 10.87
       },
       {
         "comp": "English League One",
-        "pl": 50.25,
-        "bets": 181,
-        "roi": 27.76
+        "pl": 51.23,
+        "bets": 182,
+        "roi": 28.15
       },
       {
-        "comp": "Turkish Super Lig",
-        "pl": 32.87,
-        "bets": 217,
-        "roi": 15.15
+        "comp": "Italian Serie A",
+        "pl": 31.6,
+        "bets": 67,
+        "roi": 47.16
       },
       {
         "comp": "Japanese J-League",
@@ -1365,34 +1377,34 @@
         "roi": 39.23
       },
       {
-        "comp": "Italian Serie A",
-        "pl": 30.62,
-        "bets": 66,
-        "roi": 46.39
+        "comp": "Turkish Super Lig",
+        "pl": 26.51,
+        "bets": 224,
+        "roi": 11.83
       },
       {
         "comp": "Spanish Primera Division",
-        "pl": 25.0,
-        "bets": 56,
-        "roi": 44.64
+        "pl": 25.98,
+        "bets": 57,
+        "roi": 45.58
       },
       {
         "comp": "Portuguese Primeira Liga",
-        "pl": 23.48,
-        "bets": 53,
-        "roi": 44.3
+        "pl": 24.46,
+        "bets": 54,
+        "roi": 45.3
       },
       {
         "comp": "German Bundesliga",
-        "pl": 22.34,
-        "bets": 90,
-        "roi": 24.82
+        "pl": 24.3,
+        "bets": 92,
+        "roi": 26.41
       },
       {
         "comp": "French Ligue 1",
-        "pl": 13.0,
-        "bets": 58,
-        "roi": 22.41
+        "pl": 13.98,
+        "bets": 59,
+        "roi": 23.69
       }
     ],
     "rules": [
@@ -1449,11 +1461,11 @@
     ]
   },
   "Away Lay": {
-    "total_pl": 423.89,
-    "total_bets": 1914,
-    "win_rate": 81.6,
-    "roi": 22.15,
-    "max_dd": -32.98,
+    "total_pl": 413.45,
+    "total_bets": 1965,
+    "win_rate": 81.4,
+    "roi": 21.04,
+    "max_dd": -32.38,
     "color": "#145a32",
     "live": false,
     "monthly_dates": [
@@ -1514,7 +1526,8 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05"
     ],
     "monthly_cum_pl": [
       -5.88,
@@ -1574,7 +1587,8 @@
       397.52,
       418.77,
       424.97,
-      423.89
+      423.89,
+      413.45
     ],
     "seasons": [
       {
@@ -1627,59 +1641,59 @@
       },
       {
         "season": "2025-2026",
-        "pl": 74.43,
-        "bets": 330,
-        "roi": 22.55
+        "pl": 63.6,
+        "bets": 377,
+        "roi": 16.87
       },
       {
         "season": "2026",
-        "pl": -7.64,
-        "bets": 12,
-        "roi": -63.67
+        "pl": -7.25,
+        "bets": 16,
+        "roi": -45.31
       }
     ],
     "competitions": [
       {
         "comp": "Swiss Super League",
-        "pl": 108.82,
-        "bets": 509,
-        "roi": 21.38
+        "pl": 111.66,
+        "bets": 519,
+        "roi": 21.51
       },
       {
         "comp": "Turkish Super Lig",
-        "pl": 63.88,
-        "bets": 241,
-        "roi": 26.51
+        "pl": 67.04,
+        "bets": 249,
+        "roi": 26.92
       },
       {
         "comp": "Spanish Primera Division",
-        "pl": 62.65,
-        "bets": 371,
-        "roi": 16.89
-      },
-      {
-        "comp": "Belgian Premier League",
-        "pl": 40.92,
-        "bets": 177,
-        "roi": 23.12
+        "pl": 57.28,
+        "bets": 387,
+        "roi": 14.8
       },
       {
         "comp": "English Premier League",
-        "pl": 36.33,
-        "bets": 177,
-        "roi": 20.53
+        "pl": 38.29,
+        "bets": 179,
+        "roi": 21.39
       },
       {
-        "comp": "Portuguese Primeira Liga",
-        "pl": 32.04,
-        "bets": 144,
-        "roi": 22.25
+        "comp": "Belgian Premier League",
+        "pl": 38.14,
+        "bets": 183,
+        "roi": 20.84
       },
       {
         "comp": "Irish Premier League",
-        "pl": 30.29,
-        "bets": 129,
-        "roi": 23.48
+        "pl": 30.68,
+        "bets": 133,
+        "roi": 23.07
+      },
+      {
+        "comp": "Portuguese Primeira Liga",
+        "pl": 29.5,
+        "bets": 147,
+        "roi": 20.07
       },
       {
         "comp": "Japanese J-League",
@@ -1689,9 +1703,9 @@
       },
       {
         "comp": "German Bundesliga",
-        "pl": 23.54,
-        "bets": 72,
-        "roi": 32.69
+        "pl": 15.44,
+        "bets": 74,
+        "roi": 20.86
       }
     ],
     "rules": [
@@ -1748,11 +1762,11 @@
     ]
   },
   "Draw Lay": {
-    "total_pl": 389.91,
-    "total_bets": 1628,
-    "win_rate": 80.0,
-    "roi": 23.95,
-    "max_dd": -22.07,
+    "total_pl": 393.24,
+    "total_bets": 1655,
+    "win_rate": 79.9,
+    "roi": 23.76,
+    "max_dd": -20.11,
     "color": "#0e6655",
     "live": false,
     "monthly_dates": [
@@ -1813,7 +1827,8 @@
       "2026-01",
       "2026-02",
       "2026-03",
-      "2026-04"
+      "2026-04",
+      "2026-05"
     ],
     "monthly_cum_pl": [
       -3.1,
@@ -1873,7 +1888,8 @@
       379.2,
       399.23,
       386.92,
-      389.91
+      389.91,
+      393.24
     ],
     "seasons": [
       {
@@ -1926,29 +1942,29 @@
       },
       {
         "season": "2025-2026",
-        "pl": 34.64,
-        "bets": 218,
-        "roi": 15.89
+        "pl": 40.5,
+        "bets": 232,
+        "roi": 17.46
       },
       {
         "season": "2026",
-        "pl": 3.89,
-        "bets": 30,
-        "roi": 12.97
+        "pl": 1.36,
+        "bets": 43,
+        "roi": 3.16
       }
     ],
     "competitions": [
       {
         "comp": "Spanish Primera Division",
-        "pl": 81.77,
-        "bets": 343,
-        "roi": 23.84
+        "pl": 85.53,
+        "bets": 351,
+        "roi": 24.37
       },
       {
         "comp": "Norwegian Tippeligaen",
-        "pl": 75.64,
-        "bets": 387,
-        "roi": 19.55
+        "pl": 73.11,
+        "bets": 400,
+        "roi": 18.28
       },
       {
         "comp": "English League One",
@@ -1958,33 +1974,33 @@
       },
       {
         "comp": "English Championship",
-        "pl": 39.68,
-        "bets": 203,
-        "roi": 19.55
+        "pl": 40.66,
+        "bets": 204,
+        "roi": 19.93
       },
       {
         "comp": "Turkish Super Lig",
-        "pl": 37.75,
-        "bets": 61,
-        "roi": 61.89
+        "pl": 38.73,
+        "bets": 62,
+        "roi": 62.47
       },
       {
         "comp": "Italian Serie A",
-        "pl": 35.14,
-        "bets": 85,
-        "roi": 41.34
-      },
-      {
-        "comp": "Belgian Premier League",
-        "pl": 32.13,
-        "bets": 193,
-        "roi": 16.65
+        "pl": 37.1,
+        "bets": 87,
+        "roi": 42.64
       },
       {
         "comp": "South Korean K League Classic",
         "pl": 31.35,
         "bets": 100,
         "roi": 31.35
+      },
+      {
+        "comp": "Belgian Premier League",
+        "pl": 30.31,
+        "bets": 195,
+        "roi": 15.54
       }
     ],
     "rules": [
