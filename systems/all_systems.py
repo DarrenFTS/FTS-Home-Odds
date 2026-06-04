@@ -114,6 +114,8 @@ HIST_ROI = {
     ("English Championship",   2.50, 2.75, "Lay U1.5"): 14.7,
     ("Turkish Super Lig",      2.25, 2.50, "Lay U1.5"): 23.3,
     ("Dutch Eredivisie",       3.50, 4.00, "Lay U1.5"): 32.1,
+    ("Austrian Bundesliga",    2.00, 2.25, "Lay U1.5"): 27.7,  # added Jun 2026
+    ("Danish Superligaen",     3.75, 4.50, "Lay U1.5"): 25.2,  # added Jun 2026
     # Lay O3.5 — exclusive upper bound (>= lo AND < hi) — deduplicated, no overlaps
     ("Turkish Super Lig",        1.50, 2.00, "Lay O3.5"): 18.8,
     ("Belgian Premier League",   4.00, 4.50, "Lay O3.5"): 43.5,
@@ -199,6 +201,8 @@ SYSTEM_DEFS = [
             ("English Championship",   2.50, 2.75),
             ("Turkish Super Lig",      2.25, 2.50),
             ("Dutch Eredivisie",       3.50, 4.00),
+            ("Austrian Bundesliga",    2.00, 2.25),  # added Jun 2026
+            ("Danish Superligaen",     3.75, 4.50),  # added Jun 2026
         ]
     },
     {
