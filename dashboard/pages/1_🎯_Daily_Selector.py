@@ -21,8 +21,8 @@ st.markdown(
     f'border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#b2dfdb">'
     f'Upload today\'s <strong style="color:#fff">FTS Advanced PreMatch Excel</strong> file. '
     f'All 7 systems will be scanned using home odds bands with a <strong style="color:{G_ACCENT}">±10% buffer</strong>. '
-    f'<strong style="color:{G_LIVE}">🟢 LIVE</strong> = Lay U1.5 & Lay O3.5 (bet these). '
-    f'<strong style="color:{G_TEST}">🔵 TEST</strong> = 5 other systems (track only).'
+    f'<strong style="color:{G_LIVE}">🟢 LIVE</strong> = Lay U1.5, Lay O3.5 & Back FHG O1.5 (bet these). '
+    f'<strong style="color:{G_TEST}">🔵 TEST</strong> = 4 other systems (track only).'
     f'</div>',
     unsafe_allow_html=True
 )
@@ -63,7 +63,7 @@ if uploaded:
     c5.metric("⚠️ Buffer Zone",   len(buffered))
     c6.metric("Lay U1.5",         mc.get("Lay U1.5", 0))
     c7.metric("Lay O3.5",         mc.get("Lay O3.5", 0))
-    c8.metric("Other Systems",    sum(v for k,v in mc.items() if k not in ("Lay U1.5","Lay O3.5")))
+    c8.metric("Back FHG O1.5",    mc.get("Back FHG O1.5", 0))
     st.divider()
 
     if df_all.empty:
