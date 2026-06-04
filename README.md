@@ -2,8 +2,8 @@
 
 A Streamlit dashboard for the **FTS Home Odds Portfolio** — 7 betting systems driven by home odds band analysis rather than xG models.
 
-🟢 **Live systems** (actively staked): Lay U1.5, Lay O3.5  
-🔵 **Test systems** (tracking only): Lay FHG U0.5, Back FHG O1.5, Home Lay, Away Lay, Draw Lay
+🟢 **Live systems** (actively staked): Lay U1.5, Lay O3.5, Back FHG O1.5
+🔵 **Test systems** (tracking only): Lay FHG U0.5, Home Lay, Away Lay, Draw Lay
 
 ---
 
@@ -11,10 +11,10 @@ A Streamlit dashboard for the **FTS Home Odds Portfolio** — 7 betting systems 
 
 | System | Rules | Bet Type | Status |
 |--------|-------|----------|--------|
-| Lay U1.5 | 10 | Lay Under 1.5 Goals | 🟢 LIVE |
+| Lay U1.5 | 12 | Lay Under 1.5 Goals | 🟢 LIVE |
 | Lay O3.5 | 10 | Lay Over 3.5 Goals | 🟢 LIVE |
+| Back FHG O1.5 | 7 | Back FH Over 1.5 Goals | 🟢 LIVE |
 | Lay FHG U0.5 | 10 | Lay FH Under 0.5 Goals | 🔵 TEST |
-| Back FHG O1.5 | 6 | Back FH Over 1.5 Goals | 🔵 TEST |
 | Home Lay | 10 | Lay Home Win | 🔵 TEST |
 | Away Lay | 10 | Lay Away Win | 🔵 TEST |
 | Draw Lay | 10 | Lay the Draw | 🔵 TEST |
@@ -54,8 +54,8 @@ FTS-Home-Odds/
 
 ### 🎯 Daily Selector
 Upload the **FTS Advanced PreMatch Excel** file. The app scans all 7 systems using home odds bands with a ±10% buffer and returns:
-- **LIVE bets** (green) — Lay U1.5 and Lay O3.5 selections to place
-- **TEST bets** (blue) — other system selections to track only
+- **LIVE bets** (green) — Lay U1.5, Lay O3.5 & Back FHG O1.5 selections to place
+- **TEST bets** (blue) — Lay FHG U0.5, Home Lay, Away Lay, Draw Lay selections to track only
 - Colour-coded table: ✅ in range vs ⚠️ buffer zone (recheck at kick-off)
 - Downloadable Excel with LIVE and TEST on separate sheets
 
@@ -106,36 +106,51 @@ streamlit run dashboard/🎰_FTS_Home_Odds.py
 ## System Rules
 
 ### Lay U1.5 🟢 LIVE
-Lay odds cap: <6.00 | Home odds buffer: ±10%
+Boundary: >= lo AND <= hi (inclusive) | Lay odds cap: < 6.00 | Buffer: ±10%
 
 | Competition | Home Odds Range | Hist ROI% |
 |-------------|----------------|-----------|
-| Irish Premier League | 1.00–1.50 | +54.2% |
-| German Bundesliga | 1.50–2.25 | +21.2% |
-| German Bundesliga | 3.00–3.25 | +44.6% |
-| German Bundesliga 2 | 3.00–3.25 | +41.2% |
-| Polish Ekstraklasa | 1.50–1.75 | +29.8% |
-| German Bundesliga | 1.75–2.00 | +29.2% |
-| Polish Ekstraklasa | 2.75–3.00 | +28.4% |
-| English League One | 3.75–4.00 | +35.5% |
-| English Championship | 2.50–2.75 | +14.6% |
-| Dutch Eredivisie | 3.50–4.00 | +44.4% |
+| Irish Premier League | 1.00–1.50 | +49.9% |
+| German Bundesliga | 1.50–2.25 | +21.5% |
+| German Bundesliga | 3.00–3.25 | +51.6% |
+| German Bundesliga 2 | 3.00–3.25 | +35.9% |
+| Polish Ekstraklasa | 1.50–1.75 | +31.4% |
+| Polish Ekstraklasa | 2.75–3.00 | +23.9% |
+| English League One | 3.75–4.00 | +23.3% |
+| English Championship | 2.50–2.75 | +14.7% |
+| Turkish Super Lig | 2.25–2.50 | +25.1% |
+| Dutch Eredivisie | 3.50–4.00 | +33.3% |
+| Austrian Bundesliga | 2.00–2.25 | +27.7% |
+| Danish Superligaen | 3.75–4.50 | +25.2% |
 
 ### Lay O3.5 🟢 LIVE
-Lay odds cap: <6.00 | Home odds buffer: ±10%
+Boundary: >= lo AND < hi (exclusive upper) | Lay odds cap: < 6.00 | Buffer: ±10%
 
 | Competition | Home Odds Range | Hist ROI% |
 |-------------|----------------|-----------|
-| Turkish Super Lig | 1.50–2.00 | +18.8% |
-| Belgian Premier League | 4.00–4.50 | +43.5% |
-| Spanish Primera Division | 3.50–4.00 | +38.5% |
-| Turkish Super Lig | 1.75–2.00 | +21.9% |
-| French Ligue 2 | 2.75–3.00 | +29.7% |
-| Spanish Primera Division | 3.50–3.75 | +40.6% |
-| Swedish Allsvenskan | 2.75–3.00 | +41.0% |
-| Belgian Premier League | 4.00–5.00 | +31.4% |
-| Spanish Primera Division | 3.00–4.00 | +21.2% |
-| Dutch Eerste Divisie | 1.25–1.50 | +24.0% |
+| Turkish Super Lig | 1.50–2.00 | +19.1% |
+| Belgian Premier League | 4.00–4.50 | +45.4% |
+| Spanish Primera Division | 3.50–4.00 | +38.0% |
+| French Ligue 2 | 2.75–3.00 | +27.5% |
+| Swedish Allsvenskan | 2.75–3.00 | +29.1% |
+| Dutch Eerste Divisie | 1.25–1.50 | +23.1% |
+| Danish Superligaen | 2.00–2.50 | +18.7% |
+| Austrian Bundesliga | 1.00–2.00 | +14.4% |
+| Dutch Eredivisie | 1.75–2.00 | +19.4% |
+| Italian Serie A | 3.50–4.00 | +20.4% |
+
+### Back FHG O1.5 🟢 LIVE
+Boundary: >= lo AND < hi (exclusive upper) | Back odds cap: < 6.00 | Buffer: ±10%
+
+| Competition | Home Odds Range | Hist ROI% |
+|-------------|----------------|-----------|
+| English League One | 1.75–2.00 | +21.5% |
+| Italian Serie A | 4.00–4.50 | +39.6% |
+| Swedish Allsvenskan | 2.50–2.75 | +34.5% |
+| Norwegian Tippeligaen | 3.50–4.00 | +31.6% |
+| Turkish Super Lig | 2.50–3.00 | +17.6% |
+| German Bundesliga | 3.50–3.75 | +37.2% |
+| Belgian Premier League | 3.00–3.25 | +29.8% |
 
 ---
 
@@ -143,14 +158,15 @@ Lay odds cap: <6.00 | Home odds buffer: ±10%
 
 | Bank | Systems | Size | Stake |
 |------|---------|------|-------|
-| Lay Bank | Lay U1.5 + Lay O3.5 | 50 units | 1.0u (0.5u buffer) |
-| Test Bank | 5 test systems | Track only | No real stakes |
+| Live Bank | Lay U1.5 + Lay O3.5 + Back FHG O1.5 | 100 units | 1.0u flat |
+| Test Bank | 4 test systems | Track only | No real stakes |
 
 **Compound:** Monthly from month 4, upward only when above starting bank.
+**Review trigger:** Bank falls below 60% → reduce stakes 20%.
 
 ---
 
 ## Data Sources
 - **Historical results:** FTS_Advanced_Results_-_Odds.xlsx (Sheet: FTSAdvanced, header row 2)
 - **PreMatch fixtures:** FTSAdvanced-PreMatch.xlsx (daily, uploaded via Daily Selector)
-- **Backtested period:** Season 2021–22 through 2025–26 (in progress)
+- **Backtested period:** Season 2021–22 through 2025–26
