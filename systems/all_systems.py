@@ -145,6 +145,7 @@ HIST_ROI = {
     ("Norwegian Tippeligaen",  3.50, 4.00, "Back FHG O1.5"): 42.1,
     ("Turkish Super Lig",      2.50, 3.00, "Back FHG O1.5"): 19.5,
     ("German Bundesliga",      3.50, 3.75, "Back FHG O1.5"): 37.2,
+    ("Belgian Premier League", 3.00, 3.25, "Back FHG O1.5"): 29.8,  # added Jun 2026
     # Home Lay — verified, fresh sweep
     ("Italian Serie A",         4.50, 5.00, "Home Lay"): 46.4,
     ("Spanish Primera Division",4.50, 5.25, "Home Lay"): 44.6,
@@ -262,6 +263,7 @@ SYSTEM_DEFS = [
             ("Norwegian Tippeligaen", 3.50, 4.00),
             ("Turkish Super Lig",     2.50, 3.00),
             ("German Bundesliga",     3.50, 3.75),
+            ("Belgian Premier League",3.00, 3.25),  # added Jun 2026
         ]
     },
     {
