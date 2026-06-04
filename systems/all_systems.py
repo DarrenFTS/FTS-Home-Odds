@@ -249,7 +249,7 @@ SYSTEM_DEFS = [
     },
     {
         "name": "Back FHG O1.5",
-        "live": False,
+        "live": True,
         "bet_type": "BACK",
         "bet_label": "FHO1.5",
         "odds_key": "fho15_back",
