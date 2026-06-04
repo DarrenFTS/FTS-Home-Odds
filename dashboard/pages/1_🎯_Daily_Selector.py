@@ -9,6 +9,9 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import importlib
+import systems.all_systems as _all_sys_mod
+importlib.reload(_all_sys_mod)
 from systems.all_systems import load_fixture_file, scan_all_systems, signals_to_dataframe, SYSTEM_DEFS
 from dashboard.theme import SIDEBAR_CSS, sidebar_brand, G_PANEL, G_MID, G_ACCENT, G_TEST, G_BUF, G_LIVE
 
@@ -125,7 +128,7 @@ if uploaded:
 
             def color_system(v):
                 s = str(v)
-                if 'U1.5' in s or 'O3.5' in s:
+                if 'U1.5' in s or 'O3.5' in s or 'FHG O1.5' in s:
                     return 'color:#2ecc71;font-weight:bold'
                 return 'color:#5dade2'
 
