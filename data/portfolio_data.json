@@ -923,7 +923,7 @@
     "roi": 24.51,
     "max_dd": -17.7,
     "color": "#16a085",
-    "live": false,
+    "live": true,
     "monthly_dates": [
       "2021-08",
       "2021-09",
