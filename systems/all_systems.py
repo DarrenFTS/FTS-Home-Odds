@@ -158,16 +158,16 @@ HIST_ROI = {
     ("German Bundesliga",       2.75, 3.00, "Home Lay"): 27.3,
     ("Belgian Premier League",  2.00, 3.00, "Home Lay"): 11.2,
     # Away Lay — verified, fresh sweep
-    ("Swiss Super League",      1.50, 2.25, "Away Lay"): 20.7,
-    ("Irish Premier League",    2.00, 2.50, "Away Lay"): 30.3,
-    ("Turkish Super Lig",       1.75, 2.00, "Away Lay"): 24.7,
-    ("Spanish Primera Division",2.00, 2.50, "Away Lay"): 18.7,
-    ("Portuguese Primeira Liga",1.50, 2.00, "Away Lay"): 22.5,
-    ("English Premier League",  2.00, 2.25, "Away Lay"): 20.7,
-    ("Belgian Premier League",  1.75, 2.00, "Away Lay"): 23.2,
-    ("German Bundesliga",       1.50, 1.75, "Away Lay"): 30.8,
+    ("Swiss Super League",      1.50, 2.25, "Away Lay"): 18.0,
+    ("Irish Premier League",    2.00, 2.25, "Away Lay"): 61.4,  # narrowed Sep 2026 — was 2.00-2.50
+    ("Turkish Super Lig",       1.75, 2.00, "Away Lay"): 25.7,
+    ("Spanish Primera Division",2.00, 2.50, "Away Lay"): 16.5,
+    ("Portuguese Primeira Liga",1.50, 2.00, "Away Lay"): 19.3,
+    ("English Premier League",  2.00, 2.25, "Away Lay"): 22.2,
+    ("Belgian Premier League",  1.75, 2.00, "Away Lay"): 22.5,
+    ("German Bundesliga",       1.50, 1.75, "Away Lay"): 21.9,
     ("Japanese J-League",       3.00, 3.25, "Away Lay"): 27.0,
-    ("Swiss Super League",      2.00, 2.25, "Away Lay"): 24.7,
+    ("Danish Superligaen",      2.00, 2.25, "Away Lay"): 30.6,  # added Sep 2026 — replaces Swiss duplicate
     # Draw Lay — verified
     ("Turkish Super Lig",            3.75, 4.50, "Draw Lay"): 67.0,
     ("Spanish Primera Division",     1.25, 1.50, "Draw Lay"): 36.1,
@@ -297,7 +297,7 @@ SYSTEM_DEFS = [
         "inclusive_upper": False,
         "rules": [
             ("Swiss Super League",      1.50, 2.25),
-            ("Irish Premier League",    2.00, 2.50),
+            ("Irish Premier League",    2.00, 2.25),  # narrowed Sep 2026 — was 2.00-2.50
             ("Turkish Super Lig",       1.75, 2.00),
             ("Spanish Primera Division",2.00, 2.50),
             ("Portuguese Primeira Liga",1.50, 2.00),
@@ -305,7 +305,7 @@ SYSTEM_DEFS = [
             ("Belgian Premier League",  1.75, 2.00),
             ("German Bundesliga",       1.50, 1.75),
             ("Japanese J-League",       3.00, 3.25),
-            ("Swiss Super League",      2.00, 2.25),
+            ("Danish Superligaen",      2.00, 2.25),  # added Sep 2026 — replaces Swiss duplicate
         ]
     },
     {
