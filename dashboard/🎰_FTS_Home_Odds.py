@@ -16,6 +16,8 @@ DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 with open(DATA_PATH) as f:
     PORT = json.load(f)
 
+PORT = {k: v for k, v in PORT.items() if not k.startswith('_')}  # exclude metadata keys (e.g. _edge_analysis)
+
 # ── Header ─────────────────────────────────────────────────────────────────────
 col_logo, col_title = st.columns([1, 9])
 with col_logo:
