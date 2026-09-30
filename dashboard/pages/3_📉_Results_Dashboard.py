@@ -14,6 +14,7 @@ DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path
                          "data", "portfolio_data.json")
 with open(DATA_PATH) as f:
     PORT = json.load(f)
+PORT = {k: v for k, v in PORT.items() if not k.startswith('_')}  # exclude metadata keys (e.g. _edge_analysis)
 
 st.title("📉 Results Dashboard")
 st.markdown("Detailed historical performance per system — cumulative P&L, drawdown analysis, season and competition breakdown.")

@@ -24,6 +24,7 @@ def load_portfolio():
         return json.load(f)
 
 PORT = load_portfolio()
+PORT = {k: v for k, v in PORT.items() if not k.startswith('_')}  # exclude metadata keys (e.g. _edge_analysis)
 
 LIVE_SYSTEMS = {k for k, v in PORT.items() if v.get("live", False)}
 SYS_COLORS = {

@@ -28,6 +28,7 @@ DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path
 if os.path.exists(DATA_PATH):
     with open(DATA_PATH) as f:
         current = json.load(f)
+    current = {k: v for k, v in current.items() if not k.startswith('_')}  # exclude metadata keys (e.g. _edge_analysis)
     c1, c2, c3 = st.columns(3)
     total_bets = sum(v["total_bets"] for v in current.values())
     total_pl   = sum(v["total_pl"]   for v in current.values())
@@ -262,6 +263,15 @@ if uploaded:
             progress.progress((idx + 1) / len(SYSTEMS_CFG))
 
     if output:
+        # Preserve metadata keys (e.g. _edge_analysis) from the existing file —
+        # this page only recomputes the 7 systems, not odds-edge data, so a
+        # wholesale overwrite would otherwise silently delete the Edge Analysis tab.
+        if os.path.exists(DATA_PATH):
+            with open(DATA_PATH) as f:
+                existing = json.load(f)
+            for k, v in existing.items():
+                if k.startswith('_'):
+                    output[k] = v
         with open(DATA_PATH, 'w') as f:
             json.dump(output, f, indent=2, default=str)
 
