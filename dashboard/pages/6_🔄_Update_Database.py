@@ -201,7 +201,7 @@ if uploaded:
                 mask = (
                     (df['Competition'] == comp) &
                     (df['Home Back Odds'] >= lo) &
-                    (df['Home Back Odds'] <= hi) &
+                    ((df['Home Back Odds'] <= hi) if sys_name == "Lay U1.5" else (df['Home Back Odds'] < hi)) &
                     (df[pl_col].notna())
                 )
                 if odds_col and odds_col in df.columns:
@@ -213,7 +213,7 @@ if uploaded:
             if not all_bets:
                 continue
 
-            combined  = pd.concat(all_bets).sort_values('Date').reset_index(drop=True)
+            combined  = pd.concat(all_bets).sort_values(['Date','Time'] if 'Time' in df.columns else ['Date'], kind='stable').reset_index(drop=True)
             total_pl  = combined[pl_col].sum()
             total_bets= len(combined)
             win_rate  = (combined[pl_col] > 0).mean() * 100
