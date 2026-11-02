@@ -110,47 +110,47 @@ Boundary: >= lo AND <= hi (inclusive) | Lay odds cap: < 6.00 | Buffer: ±10%
 
 | Competition | Home Odds Range | Hist ROI% |
 |-------------|----------------|-----------|
-| Irish Premier League | 1.00–1.50 | +49.9% |
-| German Bundesliga | 1.50–2.25 | +21.5% |
-| German Bundesliga | 3.00–3.25 | +51.6% |
-| German Bundesliga 2 | 3.00–3.25 | +35.9% |
-| Polish Ekstraklasa | 1.50–1.75 | +31.4% |
-| Polish Ekstraklasa | 2.75–3.00 | +23.9% |
-| English League One | 3.75–4.00 | +23.3% |
-| English Championship | 2.50–2.75 | +14.7% |
-| Turkish Super Lig | 2.25–2.50 | +25.1% |
-| Dutch Eredivisie | 3.50–4.00 | +33.3% |
-| Austrian Bundesliga | 2.00–2.25 | +27.7% |
-| Danish Superligaen | 3.75–4.50 | +25.2% |
+| Irish Premier League | 1.00–1.50 | +53.5% |
+| German Bundesliga | 1.50–2.25 | +20.3% |
+| German Bundesliga | 3.00–3.25 | +44.8% |
+| German Bundesliga 2 | 3.00–3.25 | +35.0% |
+| Polish Ekstraklasa | 1.50–1.75 | +28.2% |
+| Polish Ekstraklasa | 2.75–3.00 | +27.8% |
+| English League One | 3.75–4.00 | +24.9% |
+| English Championship | 2.50–2.75 | +14.9% |
+| Turkish Super Lig | 2.25–2.50 | +25.3% |
+| Dutch Eredivisie | 3.50–4.00 | +34.4% |
+| Austrian Bundesliga | 2.00–2.25 | +28.5% |
+| Danish Superligaen | 3.75–4.50 | +31.2% |
 
 ### Lay O3.5 🟢 LIVE
 Boundary: >= lo AND < hi (exclusive upper) | Lay odds cap: < 6.00 | Buffer: ±10%
 
 | Competition | Home Odds Range | Hist ROI% |
 |-------------|----------------|-----------|
-| Turkish Super Lig | 1.50–2.00 | +19.1% |
-| Belgian Premier League | 4.00–4.50 | +45.4% |
-| Spanish Primera Division | 3.50–4.00 | +38.0% |
-| French Ligue 2 | 2.75–3.00 | +27.5% |
-| Swedish Allsvenskan | 2.75–3.00 | +29.1% |
-| Dutch Eerste Divisie | 1.25–1.50 | +23.1% |
-| Danish Superligaen | 2.00–2.50 | +18.7% |
+| Turkish Super Lig | 1.50–2.00 | +19.8% |
+| Belgian Premier League | 4.00–4.50 | +42.9% |
+| Spanish Primera Division | 3.50–4.00 | +30.1% |
+| French Ligue 2 | 2.75–3.00 | +28.7% |
+| Swedish Allsvenskan | 2.75–3.00 | +33.6% |
+| Dutch Eerste Divisie | 1.25–1.50 | +22.3% |
+| Danish Superligaen | 2.00–2.50 | +17.6% |
 | Austrian Bundesliga | 1.00–2.00 | +14.4% |
-| Dutch Eredivisie | 1.75–2.00 | +19.4% |
-| Italian Serie A | 3.50–4.00 | +20.4% |
+| Dutch Eredivisie | 1.75–2.00 | +18.5% |
+| Italian Serie A | 3.50–4.00 | +18.9% |
 
 ### Back FHG O1.5 🟢 LIVE
 Boundary: >= lo AND < hi (exclusive upper) | Back odds cap: < 6.00 | Buffer: ±10%
 
 | Competition | Home Odds Range | Hist ROI% |
 |-------------|----------------|-----------|
-| English League One | 1.75–2.00 | +21.5% |
-| Italian Serie A | 4.00–4.50 | +39.6% |
-| Swedish Allsvenskan | 2.50–2.75 | +34.5% |
-| Norwegian Tippeligaen | 3.50–4.00 | +31.6% |
-| Turkish Super Lig | 2.50–3.00 | +17.6% |
+| English League One | 1.75–2.00 | +18.6% |
+| Italian Serie A | 4.00–4.50 | +36.5% |
+| Swedish Allsvenskan | 2.50–2.75 | +36.6% |
+| Norwegian Tippeligaen | 3.50–4.00 | +24.6% |
+| Turkish Super Lig | 2.50–3.00 | +12.4% |
 | German Bundesliga | 3.50–3.75 | +37.2% |
-| Belgian Premier League | 3.00–3.25 | +29.8% |
+| Belgian Premier League | 3.00–3.25 | +30.2% |
 
 ---
 
@@ -169,4 +169,4 @@ Boundary: >= lo AND < hi (exclusive upper) | Back odds cap: < 6.00 | Buffer: ±1
 ## Data Sources
 - **Historical results:** FTS_Advanced_Results_-_Odds.xlsx (Sheet: FTSAdvanced, header row 2)
 - **PreMatch fixtures:** FTSAdvanced-PreMatch.xlsx (daily, uploaded via Daily Selector)
-- **Backtested period:** Season 2021–22 through 2025–26
+- **Backtested period:** Season 2021–22 through 2026–27 (data to 1 Nov 2026)
