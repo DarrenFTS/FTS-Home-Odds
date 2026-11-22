@@ -93,7 +93,7 @@ p, li, label, .stMarkdown, [data-testid="stCaptionContainer"] {{ color: {TEXT}; 
 [data-testid="stSidebarNav"] span {{ color: {TEXT} !important; font-weight: 500; }}
 
 [data-testid="stSidebarNav"] li:first-child span p {{ font-size: 0 !important; }}
-[data-testid="stSidebarNav"] li:first-child span p::after {{ content: "🏠  Home"; font-size: 0.875rem; }}
+[data-testid="stSidebarNav"] li:first-child span p::after {{ content: "Home"; font-size: 0.875rem; }}
 
 /* metrics as cards */
 [data-testid="stMetric"] {{ background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 14px;
@@ -146,6 +146,25 @@ hr {{ border-color: {BORDER} !important; opacity: 0.6; }}
 .fts-section .bar {{ width:4px; height:20px; border-radius:4px; background:{ACCENT}; }}
 .fts-section .t {{ font-size:1.12rem; font-weight:700; color:{TEXT}; }}
 .fts-section .s {{ color:{MUTED}; font-size:0.85rem; }}
+/* ── forms: dark boxes, light text everywhere (selects, dates, numbers, uploader) ── */
+[data-baseweb="select"] *, [data-baseweb="input"] *, [data-baseweb="base-input"], [data-baseweb="base-input"] *,
+[data-testid="stSelectbox"] *, [data-testid="stMultiSelect"] *, [data-testid="stDateInput"] *,
+[data-testid="stNumberInput"] *, [data-testid="stTextInput"] * {{ color: {TEXT} !important; }}
+[data-baseweb="select"] > div, [data-baseweb="base-input"], [data-baseweb="input"] > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] > div, [data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+[data-testid="stDateInput"] [data-baseweb="input"], [data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stSidebar"] [data-baseweb="select"] > div, [data-testid="stSidebar"] [data-baseweb="input"],
+[data-testid="stSidebar"] [data-baseweb="base-input"] {{ background-color: {SURFACE_2} !important; border-color: {BORDER} !important; }}
+[data-baseweb="select"] svg, [data-baseweb="input"] svg {{ fill: {MUTED} !important; }}
+[data-baseweb="popover"] *, [data-baseweb="menu"] * {{ color: {TEXT} !important; }}
+[data-baseweb="popover"] ul, [data-baseweb="menu"] {{ background-color: {SURFACE_2} !important; }}
+[data-testid="stFileUploaderDropzone"] {{ background-color: {SURFACE_2} !important; border: 1px dashed {ACCENT} !important; }}
+[data-testid="stFileUploaderDropzone"] *, [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span {{ color: {TEXT} !important; }}
+[data-testid="stFileUploaderDropzone"] button {{ background-color: {ACCENT} !important; color: #FFFFFF !important; border: 0 !important; }}
+[data-testid="stFileUploaderDropzone"] button * {{ color: #FFFFFF !important; }}
+[data-testid="stRadio"] label *, [data-testid="stCheckbox"] label *, [data-testid="stToggle"] label * {{ color: {TEXT} !important; }}
+.stDownloadButton > button, .stButton > button:not([kind="primary"]) {{ background-color: {SURFACE_2}; color: {TEXT} !important; }}
+.stDownloadButton > button *, .stButton > button:not([kind="primary"]) * {{ color: {TEXT} !important; }}
 </style>
 """
 
@@ -262,9 +281,11 @@ def heat_style(v, scale: float = 30):
         return ""
     if pd.isna(v):
         return f"color:{MUTED};background-color:transparent"
-    a = min(abs(v) / scale, 1) * 0.55 + 0.08
-    col = "34,197,94" if v > 0 else "239,68,68" if v < 0 else "143,163,191"
-    return f"background-color:rgba({col},{a:.2f});color:{TEXT};font-weight:600"
+    a = min(abs(v) / scale, 1) * 0.65 + 0.12
+    base = (13, 34, 25)  # SURFACE, so the colour is opaque and readable in every table
+    tgt = (34, 197, 94) if v > 0 else (239, 68, 68) if v < 0 else (141, 181, 160)
+    r, g, b = (round(base[i] + (tgt[i] - base[i]) * a) for i in range(3))
+    return f"background-color:rgb({r},{g},{b});color:#FFFFFF;font-weight:600"
 
 
 def system_style(v):
