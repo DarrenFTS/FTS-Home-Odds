@@ -1,269 +1,152 @@
-"""Page 5: Analytics — Rolling ROI, distributions, deep-dive statistics"""
+"""Page 4: Analytics"""
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import json, os, sys, math
+import plotly.express as px
+import json, os, sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from dashboard.theme import sidebar_brand, G_PANEL, G_MID, G_ACCENT, PLOT_LAYOUT, hex_alpha
-
 st.set_page_config(page_title="Analytics", page_icon="🔬", layout="wide")
-sidebar_brand()
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
+import fts_ui as ui
+ui.apply_theme()
 
-DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                         "data", "portfolio_data.json")
-with open(DATA_PATH) as f:
-    PORT = json.load(f)
+MKT = dict(ui.SYSTEM_COLORS)
+def load_data():
+    # shared loader — refreshes automatically when the data file is updated
+    return ui.load_bets().drop(columns=['month'])
 
-PORT = {k: v for k, v in PORT.items() if not k.startswith('_')}  # exclude metadata keys (e.g. _edge_analysis)
-
+bets = load_data()
 st.title("🔬 Analytics")
-st.markdown("Deep-dive statistics across the portfolio — rolling performance, distributions, and risk metrics.")
 
-SYSTEMS = list(PORT.keys())
+def ob(o):
+    if o < 1.5:  return "1.00–1.49"
+    if o < 2.0:  return "1.50–1.99"
+    if o < 2.5:  return "2.00–2.49"
+    if o < 3.0:  return "2.50–2.99"
+    if o < 4.0:  return "3.00–3.99"
+    if o < 5.0:  return "4.00–4.99"
+    return "5.00+"
 
-# ── Tab layout ─────────────────────────────────────────────────────────────────
-tab_roll, tab_dist, tab_risk, tab_compare = st.tabs([
-    "📈 Rolling ROI", "📊 Distributions", "🛡️ Risk Metrics", "⚖️ System Comparison"
-])
+OO = ["1.00–1.49","1.50–1.99","2.00–2.49","2.50–2.99","3.00–3.99","4.00–4.99","5.00+"]
+b2 = bets.copy(); b2['ob'] = b2['odds'].apply(ob)
 
-# ══ Rolling ROI ════════════════════════════════════════════════════════════════
-with tab_roll:
-    st.subheader("Rolling Monthly P&L by System")
-    st.markdown("Each bar represents one calendar month's P&L. Green = profitable, red = losing.")
+# ROI by Odds Band
+st.subheader("ROI by Odds Band")
+og = b2.groupby(['system','ob']).agg(Bets=('pl','count'),PL=('pl','sum')).reset_index()
+og['ROI%'] = og['PL']/og['Bets']*100
+c1, c2 = st.columns(2)
+with c1:
+    fo = px.bar(og, x='ob', y='ROI%', color='system', barmode='group',
+                category_orders={'ob':OO}, color_discrete_map=MKT,
+                labels={'ob':'Odds Band','ROI%':'ROI %'})
+    fo.update_layout(height=330, template='fts',
+        margin=dict(l=0,r=0,t=10,b=10), legend=dict(orientation='h', y=-0.25))
+    st.plotly_chart(fo, use_container_width=True)
+with c2:
+    ov = b2.groupby('ob')['pl'].agg(['count','sum']).reset_index()
+    ov.columns = ['Odds Band','Bets','PL']; ov['ROI%'] = ov['PL']/ov['Bets']*100
+    ov = ov.set_index('Odds Band').reindex(OO).dropna()
+    st.dataframe(ov.style.format({'PL':'{:+.2f}','ROI%':'{:+.2f}%'}),
+                 use_container_width=True)
 
-    sel_roll = st.multiselect("Systems to display",
-                              SYSTEMS, default=SYSTEMS[:3],
-                              key="roll_sys")
+st.divider()
 
-    if sel_roll:
-        fig_roll = make_subplots(
-            rows=len(sel_roll), cols=1,
-            shared_xaxes=True,
-            subplot_titles=[f"{'🟢' if PORT[s]['live'] else '🔵'} {s}" for s in sel_roll],
-            vertical_spacing=0.08,
-        )
-        for i, sname in enumerate(sel_roll, 1):
-            d      = PORT[sname]
-            color  = d["color"]
-            dates  = d["monthly_dates"]
-            cumpl  = d["monthly_cum_pl"]
-            # Derive monthly P&L from cumulative
-            monthly_pl = [cumpl[0]] + [cumpl[j] - cumpl[j-1] for j in range(1, len(cumpl))]
-            bar_colors = ['rgba(46,204,113,0.65)' if v >= 0 else 'rgba(231,76,60,0.55)'
-                          for v in monthly_pl]
-            bar_lines  = ['#2ecc71' if v >= 0 else '#e74c3c' for v in monthly_pl]
+# Monthly P/L
+st.subheader("Monthly Performance")
+b2['ym'] = b2['date'].dt.to_period('M').astype(str)
+mn = b2.groupby('ym').agg(Bets=('pl','count'),PL=('pl','sum')).reset_index()
+mn['ROI%'] = mn['PL']/mn['Bets']*100
+mn['clr']  = mn['PL'].apply(lambda x: '#217346' if x > 0 else '#9B1C1C')
+fm = go.Figure(go.Bar(x=mn['ym'], y=mn['PL'].round(2), marker_color=mn['clr'],
+    text=[f"{p:+.2f}" for p in mn['PL']], textposition='outside',
+    hovertemplate='%{x}<br>P/L: %{y:+.2f}<extra></extra>'))
+fm.update_layout(height=300, template='fts',
+    margin=dict(l=0,r=0,t=10,b=60), xaxis_tickangle=-45, yaxis_title="P/L (pts)")
+st.plotly_chart(fm, use_container_width=True)
 
-            fig_roll.add_trace(go.Bar(
-                x=dates, y=monthly_pl,
-                marker_color=bar_colors,
-                marker_line_color=bar_lines,
-                marker_line_width=1,
-                name=sname,
-                hovertemplate=f"{sname}<br>%{{x}}<br>P&L: %{{y:.2f}}u<extra></extra>",
-                showlegend=False,
-            ), row=i, col=1)
-            fig_roll.add_hline(y=0, line_dash="dot",
-                               line_color="rgba(255,255,255,0.15)", row=i, col=1)
+st.divider()
 
-        fig_roll.update_layout(
-            height=260 * len(sel_roll),
-            plot_bgcolor="#061208", paper_bgcolor="#061208",
-            font=dict(color="#e8f5e9"),
-            margin=dict(t=50, b=40, l=60, r=20),
-            showlegend=False,
-        )
-        for i in range(1, len(sel_roll)+1):
-            fig_roll.update_xaxes(gridcolor="rgba(46,204,113,0.08)", row=i, col=1)
-            fig_roll.update_yaxes(gridcolor="rgba(46,204,113,0.08)",
-                                  title_text="P&L (u)", row=i, col=1)
-        st.plotly_chart(fig_roll, use_container_width=True)
+# Win/Loss + Strike Rate
+st.subheader("Distribution & Strike Rates")
+c3, c4 = st.columns(2)
+with c3:
+    fh = px.histogram(b2, x='pl', color='system', nbins=50,
+                      color_discrete_map=MKT, labels={'pl':'P/L per bet'})
+    fh.update_layout(height=280, template='fts',
+        margin=dict(l=0,r=0,t=10,b=10), legend=dict(orientation='h', y=-0.25))
+    st.plotly_chart(fh, use_container_width=True)
+with c4:
+    wr = b2.groupby('system').agg(Bets=('pl','count'),Won=('won','sum')).reset_index()
+    wr['SR%'] = wr['Won']/wr['Bets']*100
+    fsr = go.Figure(go.Bar(x=wr['system'], y=wr['SR%'].round(2),
+        marker_color=[MKT.get(s,'#888') for s in wr['system']],
+        text=[f"{r:.2f}%" for r in wr['SR%']], textposition='outside'))
+    fsr.update_layout(height=280, template='fts',
+        margin=dict(l=0,r=0,t=10,b=10),
+        yaxis_title="Strike Rate %", showlegend=False, title="Strike Rate by System")
+    st.plotly_chart(fsr, use_container_width=True)
 
-# ══ Distributions ══════════════════════════════════════════════════════════════
-with tab_dist:
-    st.subheader("Season P&L Distribution")
-    st.markdown("How are seasonal returns distributed across all systems?")
+st.divider()
 
-    all_season_pls = []
-    for sname, d in PORT.items():
-        for s in d["seasons"]:
-            all_season_pls.append({
-                "System": sname,
-                "Season": s["season"],
-                "P&L":    s["pl"],
-                "Bets":   s["bets"],
-                "ROI%":   s["roi"],
-                "Live":   d["live"],
-            })
-    df_all = pd.DataFrame(all_season_pls)
+# Rolling 50-Bet ROI
+st.subheader("Rolling 50-Bet ROI")
+rs = st.selectbox("System", list(MKT.keys()))
+if rs in ui.TEST_SYSTEMS:
+    st.warning(f"🧪 **TEST mode** — {rs} is paper tracking only. Not for live betting.")
+rs_d = b2[b2['system'] == rs].sort_values('date').copy()
+rs_d['rr'] = rs_d['pl'].rolling(50, min_periods=20).mean() * 100
+fr = go.Figure(go.Scatter(x=rs_d['date'], y=rs_d['rr'].round(2), mode='lines',
+    line=dict(color=MKT[rs], width=2),
+    hovertemplate='%{x|%d %b %Y}<br>ROI: %{y:+.2f}%<extra></extra>'))
+fr.add_hline(y=0, line_dash='dash', line_color='grey', opacity=0.5)
+fr.update_layout(height=280, template='fts',
+    margin=dict(l=0,r=0,t=10,b=10), yaxis_title="Rolling ROI per bet (%)")
+st.plotly_chart(fr, use_container_width=True)
 
-    fig_box = go.Figure()
-    for sname in SYSTEMS:
-        sub = df_all[df_all["System"] == sname]["P&L"].tolist()
-        color = PORT[sname]["color"]
-        fig_box.add_trace(go.Box(
-            y=sub, name=f"{'🟢' if PORT[sname]['live'] else '🔵'} {sname}",
-            marker_color=color,
-            line_color=color,
-            fillcolor=hex_alpha(color, 0.25),
-            boxpoints="all",
-            jitter=0.4,
-            pointpos=0,
-            hovertemplate="%{y:.2f}u<extra></extra>",
-        ))
-    fig_box.add_hline(y=0, line_dash="dot", line_color="rgba(255,255,255,0.2)")
-    fig_box.update_layout(**{
-        **PLOT_LAYOUT,
-        "height": 420,
-        "yaxis": dict(**PLOT_LAYOUT.get("yaxis",{}), title="Season P&L (units)"),
-        "showlegend": False,
-        "margin": dict(t=20, b=80, l=60, r=20),
-        "xaxis": dict(tickangle=30, gridcolor="rgba(46,204,113,0.05)"),
-    })
-    st.plotly_chart(fig_box, use_container_width=True)
-    st.caption("Each dot = one season. Box shows median, IQR and whiskers. Green dot above zero line = profitable season.")
+st.divider()
 
-    st.divider()
-    st.subheader("Losing vs Profitable Seasons")
-    loss_data = []
-    for sname, d in PORT.items():
-        total_s  = len(d["seasons"])
-        losing_s = sum(1 for s in d["seasons"] if s["pl"] < 0)
-        loss_data.append({
-            "System":          sname,
-            "Status":          "🟢 LIVE" if d["live"] else "🔵 TEST",
-            "Total Seasons":   total_s,
-            "Profitable":      total_s - losing_s,
-            "Losing":          losing_s,
-            "Win Rate (Seas)": f"{((total_s-losing_s)/total_s*100):.0f}%" if total_s else "—",
-        })
-    st.dataframe(pd.DataFrame(loss_data), use_container_width=True, hide_index=True)
-
-# ══ Risk Metrics ═══════════════════════════════════════════════════════════════
-with tab_risk:
-    st.subheader("Risk-Adjusted Metrics")
-    st.markdown("Drawdown depth and portfolio risk profile by system.")
-
-    risk_rows = []
-    for sname, d in PORT.items():
-        roi = d["roi"]
-        dd  = abs(d["max_dd"])
-        cal = roi / dd if dd > 0 else 0   # Calmar-style ratio (ROI / max DD)
-        risk_rows.append({
-            "System":         sname,
-            "Status":         "🟢 LIVE" if d["live"] else "🔵 TEST",
-            "ROI%":           f"+{roi:.1f}%",
-            "Max Drawdown":   f"{d['max_dd']:.2f}u",
-            "ROI/DD Ratio":   f"{cal:.2f}",
-            "Bets/Season":    f"{d['total_bets'] / max(len(d['seasons']),1):.0f}",
-            "Avg Season P&L": f"+{sum(s['pl'] for s in d['seasons'])/max(len(d['seasons']),1):.2f}u",
-        })
-
-    df_risk = pd.DataFrame(risk_rows)
-
-    def style_risk(v):
-        try:
-            val = float(str(v).replace('%','').replace('+','').replace('u',''))
-            if val > 0: return 'color:#2ecc71;font-weight:bold'
-            if val < 0: return 'color:#e74c3c;font-weight:bold'
-        except: pass
-        if 'LIVE' in str(v): return 'color:#2ecc71;font-weight:bold'
-        if 'TEST' in str(v): return 'color:#5dade2;font-weight:bold'
-        return ''
-
-    st.dataframe(
-        df_risk.style.map(style_risk, subset=["Status","ROI%","Max Drawdown","Avg Season P&L"]),
-        use_container_width=True, hide_index=True
-    )
-
-    st.markdown(
-        f'<div style="background:{G_PANEL};border:1px solid {G_MID};border-radius:6px;'
-        f'padding:12px 16px;margin-top:8px;font-size:0.8rem;color:#81c784">'
-        f'<b style="color:#e8f5e9">ROI/DD Ratio</b> = ROI% ÷ |Max Drawdown|. '
-        f'Higher = more return per unit of drawdown risk. '
-        f'Target: >1.0 for a healthy risk-return profile.'
-        f'</div>',
-        unsafe_allow_html=True
-    )
-
-    st.divider()
-    st.subheader("Drawdown Comparison")
-    dd_names  = [r["System"]  for r in risk_rows]
-    dd_vals   = [abs(d["max_dd"]) for d in PORT.values()]
-    dd_colors = [PORT[n]["color"] for n in dd_names]
-    fig_dd = go.Figure(go.Bar(
-        x=dd_names, y=dd_vals,
-        marker_color=dd_colors,
-        marker_line_color=[hex_alpha(c, 1.0) for c in dd_colors],
-        marker_line_width=1.5,
-        text=[f"{v:.1f}u" for v in dd_vals],
-        textposition="outside",
-    ))
-    fig_dd.add_hline(y=20, line_dash="dash", line_color="#e74c3c",
-                     annotation_text="DD limit (20u)", annotation_font_color="#e74c3c")
-    fig_dd.update_layout(**{
-        **PLOT_LAYOUT,
-        "height": 350,
-        "yaxis": dict(**PLOT_LAYOUT.get("yaxis",{}), title="Max Drawdown (units)"),
-        "xaxis": dict(tickangle=20, gridcolor="rgba(46,204,113,0.05)"),
-        "margin": dict(t=20, b=80, l=60, r=20),
-        "showlegend": False,
-    })
+# Drawdown analysis
+st.subheader("📉 Drawdown by System")
+dd_rows = []
+for sys in b2['system'].unique():
+    sub = b2[b2['system']==sys].sort_values('date')
+    cum = sub['pl'].cumsum(); mdd = (cum - cum.cummax()).min()
+    dd_rows.append({'System':sys, 'Max DD':round(float(mdd),2),
+                    'Total P/L':round(float(sub['pl'].sum()),2),
+                    'Ratio':round(abs(sub['pl'].sum()/mdd),1) if mdd != 0 else 0})
+dd_df = pd.DataFrame(dd_rows).sort_values('Max DD')
+col_dd1, col_dd2 = st.columns([2,3])
+with col_dd1:
+    st.dataframe(dd_df.style.format({'Max DD':'{:.2f}','Total P/L':'{:+.2f}','Ratio':'{:.1f}x'}),
+                 use_container_width=True, hide_index=True)
+with col_dd2:
+    fig_dd = go.Figure()
+    for sys in b2['system'].unique():
+        sub = b2[b2['system']==sys].sort_values('date')
+        cum = sub['pl'].cumsum(); dds = cum - cum.cummax()
+        fig_dd.add_trace(go.Scatter(
+            x=sub['date'], y=dds.values, name=sys, mode='lines',
+            line=dict(color=MKT.get(sys,'#888'), width=1.5),
+            hovertemplate=f'<b>{sys}</b><br>%{{x|%d %b %Y}}<br>DD: %{{y:+.2f}}<extra></extra>'))
+    fig_dd.update_layout(height=300, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='#e6edf3'), margin=dict(l=0,r=0,t=10,b=50),
+        legend=dict(orientation='h', y=-0.25), yaxis_title="Drawdown (pts)")
+    fig_dd.add_hline(y=0, line_dash='dash', line_color='grey', opacity=0.4)
     st.plotly_chart(fig_dd, use_container_width=True)
 
-# ══ System Comparison ══════════════════════════════════════════════════════════
-with tab_compare:
-    st.subheader("Multi-Metric Radar — System Comparison")
-    st.markdown("Select up to 4 systems to compare across 5 key metrics.")
+st.divider()
 
-    sel_radar = st.multiselect("Systems", SYSTEMS, default=SYSTEMS[:3], max_selections=4)
-
-    if sel_radar:
-        # Normalise metrics 0–1 across all systems
-        all_rois = [PORT[s]["roi"]        for s in SYSTEMS]
-        all_pls  = [PORT[s]["total_pl"]   for s in SYSTEMS]
-        all_wrs  = [PORT[s]["win_rate"]   for s in SYSTEMS]
-        all_dds  = [abs(PORT[s]["max_dd"])for s in SYSTEMS]
-        all_bets = [PORT[s]["total_bets"] for s in SYSTEMS]
-
-        def norm(val, vals):
-            lo, hi = min(vals), max(vals)
-            return (val - lo) / (hi - lo) if hi > lo else 0.5
-
-        cats = ["ROI%", "Total P&L", "Win Rate", "Low Drawdown", "Volume"]
-        fig_rad = go.Figure()
-        for sname in sel_radar:
-            d = PORT[sname]
-            vals_n = [
-                norm(d["roi"],           all_rois),
-                norm(d["total_pl"],      all_pls),
-                norm(d["win_rate"],      all_wrs),
-                norm(-abs(d["max_dd"]),  [-x for x in all_dds]),  # lower DD = better
-                norm(d["total_bets"],    all_bets),
-            ]
-            vals_n += [vals_n[0]]  # close polygon
-            fig_rad.add_trace(go.Scatterpolar(
-                r=vals_n, theta=cats + [cats[0]],
-                fill="toself",
-                name=f"{'🟢' if d['live'] else '🔵'} {sname}",
-                line=dict(color=d["color"], width=2),
-                fillcolor=hex_alpha(d["color"], 0.18),
-            ))
-
-        fig_rad.update_layout(
-            polar=dict(
-                bgcolor="#061208",
-                radialaxis=dict(visible=True, range=[0,1], tickfont=dict(color="#81c784"),
-                                gridcolor="rgba(46,204,113,0.15)"),
-                angularaxis=dict(tickfont=dict(color="#e8f5e9", size=12),
-                                 gridcolor="rgba(46,204,113,0.15)"),
-            ),
-            paper_bgcolor="#061208",
-            font=dict(color="#e8f5e9"),
-            legend=dict(bgcolor='rgba(0,0,0,0)', font=dict(color='#e8f5e9')),
-            height=500,
-            margin=dict(t=60, b=60, l=80, r=80),
-        )
-        st.plotly_chart(fig_rad, use_container_width=True)
-        st.caption("All axes normalised 0–1 across all 7 systems. Higher = better for all metrics (drawdown axis inverted so lower DD = higher score).")
+# Full stats table
+st.subheader("Full Stats — All Systems & Leagues")
+fs = b2.groupby(['system','league']).agg(
+    Bets=('pl','count'), PL=('pl','sum'), Won=('won','sum'), AvgOdds=('odds','mean')
+).reset_index()
+fs['ROI%'] = fs['PL']/fs['Bets']*100; fs['SR%'] = fs['Won']/fs['Bets']*100
+fs = fs.rename(columns={'system':'System','league':'League'})
+fs = fs[['System','League','Bets','PL','ROI%','SR%','AvgOdds']].sort_values(
+    ['System','ROI%'], ascending=[True,False])
+st.dataframe(
+    fs.style.format({'PL':'{:+.2f}','ROI%':'{:+.2f}%','SR%':'{:.2f}%','AvgOdds':'{:.2f}'}),
+    use_container_width=True, hide_index=True, height=500)

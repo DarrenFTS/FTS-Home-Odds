@@ -13,19 +13,20 @@ import importlib
 import systems.all_systems as _all_sys_mod
 importlib.reload(_all_sys_mod)
 from systems.all_systems import load_fixture_file, scan_all_systems, signals_to_dataframe, SYSTEM_DEFS
-from dashboard.theme import SIDEBAR_CSS, sidebar_brand, G_PANEL, G_MID, G_ACCENT, G_TEST, G_BUF, G_LIVE
 
 st.set_page_config(page_title="Daily Selector", page_icon="🎯", layout="wide")
-sidebar_brand()
+import fts_ui as ui  # noqa: E402
 
-st.title("🎯 Daily Bet Selector")
+ui.apply_theme()
+G_PANEL, G_MID, G_ACCENT, G_TEST, G_BUF, G_LIVE = ui.SURFACE, ui.BORDER, ui.ACCENT, ui.AMBER, ui.AMBER, ui.GREEN
+ui.hero("🎯", "Daily Selector", "Upload today's PreMatch file to generate qualifying selections for all 7 systems")
 st.markdown(
     f'<div style="background:{G_PANEL};border:1px solid {G_MID};border-left:3px solid {G_ACCENT};'
-    f'border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#b2dfdb">'
+    f'border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#E6F4EC">'
     f'Upload today\'s <strong style="color:#fff">FTS Advanced PreMatch Excel</strong> file. '
     f'All 7 systems will be scanned using home odds bands with a <strong style="color:{G_ACCENT}">±10% buffer</strong>. '
     f'<strong style="color:{G_LIVE}">🟢 LIVE</strong> = Lay U1.5, Lay O3.5 & Back FHG O1.5 (bet these). '
-    f'<strong style="color:{G_TEST}">🔵 TEST</strong> = 4 other systems (track only).'
+    f'<strong style="color:{G_TEST}">🧪 TEST</strong> = 4 other systems (track only).'
     f'</div>',
     unsafe_allow_html=True
 )
@@ -61,7 +62,7 @@ if uploaded:
     c1,c2,c3,c4,c5,c6,c7,c8 = st.columns(8)
     c1.metric("Total Selections", len(signals))
     c2.metric("🟢 LIVE",          len(live_sigs))
-    c3.metric("🔵 TEST",          len(test_sigs))
+    c3.metric("🧪 TEST",          len(test_sigs))
     c4.metric("✅ In Range",       len(in_range))
     c5.metric("⚠️ Buffer Zone",   len(buffered))
     c6.metric("Lay U1.5",         mc.get("Lay U1.5", 0))
@@ -81,8 +82,8 @@ if uploaded:
             sys_filter = st.multiselect("System", sorted(df_all['System'].unique()),
                                          default=sorted(df_all['System'].unique()))
         with fc2:
-            status_filter = st.multiselect("Status", ["🟢 LIVE","🔵 TEST"],
-                                            default=["🟢 LIVE","🔵 TEST"])
+            status_filter = st.multiselect("Status", ["🟢 LIVE","🧪 TEST"],
+                                            default=["🟢 LIVE","🧪 TEST"])
         with fc3:
             buf_filter = st.multiselect("Range Status", ["✅ In Range","⚠️ Check KO"],
                                          default=["✅ In Range","⚠️ Check KO"])
@@ -127,10 +128,7 @@ if uploaded:
                 return d.style
 
             def color_system(v):
-                s = str(v)
-                if 'U1.5' in s or 'O3.5' in s or 'FHG O1.5' in s:
-                    return 'color:#2ecc71;font-weight:bold'
-                return 'color:#5dade2'
+                return ui.system_style(str(v))
 
             def color_status(v):
                 s = str(v)
@@ -150,10 +148,10 @@ if uploaded:
                          hide_index=True, height=min(600, 60+len(live_df)*35))
 
         if not test_df.empty:
-            st.subheader("🔵 TEST Bets — Track Only (Do Not Place)")
+            st.subheader("🧪 TEST Bets — Track Only (Do Not Place)")
             st.markdown(
-                f'<div style="background:#0a2033;border:1px solid #1a4a6b;border-left:3px solid {G_TEST};'
-                f'border-radius:6px;padding:10px 14px;margin-bottom:8px;color:#7fb3d3;font-size:0.82rem">'
+                f'<div style="background:#2A2108;border:1px solid #6B5314;border-left:3px solid {G_TEST};'
+                f'border-radius:6px;padding:10px 14px;margin-bottom:8px;color:#F5D58A;font-size:0.82rem">'
                 f'These selections qualify for TEST systems. Record results for performance tracking — '
                 f'<strong style="color:#fff">do not place real stakes.</strong></div>',
                 unsafe_allow_html=True
@@ -174,12 +172,12 @@ if uploaded:
                 s = Side(style="thin", color="CCCCCC")
                 return Border(top=s, bottom=s, left=s, right=s)
 
-            NAV="0D2B12"; GRN="2ECC71"; BLU="5DADE2"
+            NAV="0D2B12"; GRN="2ECC71"; BLU="F59E0B"
             AMB="F39C12"; WHT="FFFFFF"; ALT="F0FFF4"
             BUFF="FFF9E6"; GRN_T="155A1E"
 
             def write_sheet(ws, df_in, is_live):
-                colour = "2ECC71" if is_live else "5DADE2"
+                colour = "2ECC71" if is_live else "F59E0B"
                 ws.merge_cells("A1:K1")
                 ws["A1"].value = f"FTS Home Odds — {'LIVE' if is_live else 'TEST'} Bets — {date_label}"
                 ws["A1"].font = Font(name="Arial", bold=True, size=13, color="FFFFFF")
@@ -267,8 +265,8 @@ if uploaded:
     # ── Rules reference ────────────────────────────────────────────────────────
     with st.expander("📖 System Rules Reference — All 7 Systems"):
         for sys in SYSTEM_DEFS:
-            badge = f"🟢 LIVE" if sys["live"] else "🔵 TEST"
+            badge = f"🟢 LIVE" if sys["live"] else "🧪 TEST"
             st.markdown(f"**{sys['name']}** {badge} — {sys['bet_type']} `{sys['bet_label']}` · Lay/Back odds: 1.00–5.99 · Buffer: ±10%")
             rules_md = " | ".join(f"{r[0]} ({r[1]}–{r[2]})" for r in sys["rules"])
-            st.markdown(f"<small style='color:#81c784'>{rules_md}</small>", unsafe_allow_html=True)
+            st.markdown(f"<small style='color:#8DB5A0'>{rules_md}</small>", unsafe_allow_html=True)
             st.markdown("")

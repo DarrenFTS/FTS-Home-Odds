@@ -408,7 +408,7 @@ def signals_to_dataframe(signals: List[BetSignal]) -> pd.DataFrame:
         'Home':       s.home,
         'Away':       s.away,
         'System':     s.system,
-        'Status':     '\U0001f7e2 LIVE' if s.live else '\U0001f535 TEST',
+        'Status':     '\U0001f7e2 LIVE' if s.live else '\U0001f9ea TEST',
         'Bet':        s.bet_label,
         'Type':       s.bet_type,
         'Home Odds':  s.home_odds,
